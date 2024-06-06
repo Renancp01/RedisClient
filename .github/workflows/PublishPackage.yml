@@ -19,7 +19,7 @@ jobs:
         dotnet-version: '5.0.x'
 
     - name: Restore dependencies
-      run: dotnet restore ./src/RedisClient/RedisClient.csproj
+      run: dotnet restore ./RedisClient/RedisClient/RedisClient.csproj
 
     - name: Build project
       run: dotnet build ./RedisClient/RedisClient/RedisClient.csproj --configuration Release --no-restore
