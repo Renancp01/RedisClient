@@ -19,13 +19,13 @@ jobs:
         dotnet-version: '5.0.x'
 
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ./src/RedisClient/RedisClient.csproj
 
     - name: Build project
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build ./RedisClient/RedisClient/RedisClient.csproj --configuration Release --no-restore
 
     - name: Pack project
-      run: dotnet pack --configuration Release --no-build --output ./nupkg
+      run: dotnet pack ./RedisClient/RedisClient/RedisClient.csproj --configuration Release --no-build --output ./nupkg
 
     - name: Publish to GitHub Packages
       run: dotnet nuget push ./nupkg/*.nupkg --source "github" --api-key ${{ secrets.GITHUB_TOKEN }}
