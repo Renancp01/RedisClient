@@ -19,13 +19,18 @@ jobs:
         dotnet-version: '5.0.x'
 
     - name: Restore dependencies
-      run: dotnet restore ./RedisClient/RedisClient/RedisClient.csproj
+      run: dotnet restore ./RedisClient/RedisClient.csproj
 
     - name: Build project
-      run: dotnet build ./RedisClient/RedisClient/RedisClient.csproj --configuration Release --no-restore
+      run: dotnet build ./RedisClient/RedisClient.csproj --configuration Release --no-restore
 
     - name: Pack project
-      run: dotnet pack ./RedisClient/RedisClient/RedisClient.csproj --configuration Release --no-build --output ./nupkg
+      run: dotnet pack ./RedisClient/RedisClient.csproj --configuration Release --no-build --output ./nupkg
+
+    - name: Create NuGet.Config
+      run: |
+        dotnet new nugetconfig
+        dotnet nuget add source https://nuget.pkg.github.com/renancp01/index.json -n github -u renancp01 -p ${{ secrets.TOKENREDIS }}
 
     - name: Publish to GitHub Packages
-      run: dotnet nuget push ./nupkg/*.nupkg --source "github" --api-key ${{ secrets.TOKENREDIS }}
+      run: dotnet nuget push ./nupkg/*.nupkg --source "github"
