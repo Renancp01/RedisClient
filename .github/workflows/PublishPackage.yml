@@ -27,6 +27,17 @@ jobs:
     - name: Pack project
       run: dotnet pack ./RedisClient/RedisClient/RedisClient.csproj --configuration Release --no-build --output ./nupkg
 
+    - name: Determine version
+      id: version
+      run: echo "::set-output name=version::$(date +%Y%m%d%H%M%S)"
+
+    - name: Rename package with new version
+      run: |
+        for file in ./nupkg/*.nupkg; do
+          newname=$(echo $file | sed "s/1.0.0/${{ steps.version.outputs.version }}/")
+          mv $file $newname
+        done
+
     - name: Create NuGet.Config
       run: |
         echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>
