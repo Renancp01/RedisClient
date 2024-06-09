@@ -37,7 +37,7 @@ jobs:
           <packageSourceCredentials>
             <github>
               <add key=\"Username\" value=\"renancp01\" />
-              <add key=\"ClearTextPassword\" value=\"${{ secrets.GITHUB_TOKEN }}\" />
+              <add key=\"ClearTextPassword\" value=\"${{ secrets.TOKENREDIS }}\" />
             </github>
           </packageSourceCredentials>
         </configuration>" > NuGet.Config
