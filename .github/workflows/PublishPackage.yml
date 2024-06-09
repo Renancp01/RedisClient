@@ -40,6 +40,7 @@ jobs:
 
     - name: Create NuGet.Config
       run: |
+        mkdir -p ~/.nuget/NuGet
         echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>
         <configuration>
           <packageSources>
@@ -51,7 +52,7 @@ jobs:
               <add key=\"ClearTextPassword\" value=\"${{ secrets.TOKENREDIS }}\" />
             </github>
           </packageSourceCredentials>
-        </configuration>" > NuGet.Config
+        </configuration>" > ~/.nuget/NuGet/NuGet.Config
 
     - name: Publish to GitHub Packages
       run: dotnet nuget push ./nupkg/*.nupkg --source "github" --skip-duplicate
