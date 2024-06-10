@@ -26,12 +26,11 @@ namespace RedisClient.Services
         public T GetValue<T>(string key)
         {
             var value = _database.StringGet(key);
-            if (value.IsNullOrEmpty)
-            {
-                return default;
-            }
+            if (value.IsNullOrEmpty || value.IsNull)
+                return default!;
 
-            return JsonSerializer.Deserialize<T>(value);
+            return JsonSerializer.Deserialize<T>(value.ToString()) 
+                   ?? throw new InvalidOperationException();
         }
 
         public void SetValue<T>(string key, T value)
@@ -39,6 +38,18 @@ namespace RedisClient.Services
             var json = JsonSerializer.Serialize(value);
 
             _database.StringSet(key, json);
+        }
+
+        public bool TryGetValue<T>(string key, out T value)
+        {
+            var redisValue = _database.StringGet(key);
+            if (!redisValue.IsNullOrEmpty)
+            {
+                value = JsonSerializer.Deserialize<T>(redisValue);
+                return true;
+            }
+            value = default!;
+            return false;
         }
     }
 }
