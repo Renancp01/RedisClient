@@ -19,13 +19,13 @@ jobs:
         dotnet-version: '8.0.x'
 
     - name: Restore dependencies
-      run: dotnet restore /src/RedisClient/RedisClient.csproj
+      run: dotnet restore ./src/RedisClient/RedisClient.csproj
 
     - name: Build project
       run: dotnet build ./src/RedisClient/RedisClient.csproj --configuration Release --no-restore
 
     - name: Pack project
-      run: dotnet pack /src/RedisClient/RedisClient.csproj --configuration Release --no-build --output ./nupkg
+      run: dotnet pack ./src/RedisClient/RedisClient.csproj --configuration Release --no-build --output ./nupkg
 
     - name: Determine version
       id: version
