@@ -10,8 +10,10 @@ namespace RedisClient.Extensions
     {
         public static IServiceCollection AddRedisClient(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<RCPRedisOptions>(configuration.GetSection("Redis"));
-            services.AddSingleton<IRCPRedisClient, RCPRedisClient>();
+            var configurationa = configuration.GetSection("Redis");
+
+            services.Configure<RCPRedisOptions>(configurationa);
+            services.AddSingleton<IRCPRedisClient, RcpRedisClient>();
             return services;
         }
     }
